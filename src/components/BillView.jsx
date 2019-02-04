@@ -3,15 +3,14 @@ import "./BillView.less";
 import utils from "../utils";
 
 export default class BillView extends Component {
-  state = {
-    active: true
-  };
   onDeleteClick = () => {
     utils.deleteBill(this.props.patientId, this.props.billId);
-    this.setState({ active: false });
+    // this.setState({ active: false });
+    this.props.deleteBill(this.props.patientId, this.props.billId);
   };
+
   render() {
-    return this.state.active ? (
+    return (
       <div className="bill-view-comp">
         <div>
           <label>时间：</label>
@@ -34,6 +33,6 @@ export default class BillView extends Component {
         </div>
         <button onClick={this.onDeleteClick}>删除</button>
       </div>
-    ) : null;
+    );
   }
 }
