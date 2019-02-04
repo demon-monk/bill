@@ -4,6 +4,7 @@ import { getCurrentKeyWord } from "../utils/state";
 import utils from "../utils";
 import PatientView from "../components/PatientView";
 import BillView from "../components/BillView";
+import "./List.less";
 
 @withRouter
 export default class List extends Component {
@@ -42,9 +43,34 @@ export default class List extends Component {
     });
   };
 
-  render() {
+  renderBills(listItem) {
+    const { billsInfo } = listItem;
+    const totalPrice = billsInfo.reduce((prev, curr) => {
+      return prev + curr.price;
+    }, 0);
     return (
       <div>
+        {billsInfo.map(bill => (
+          <div>
+            <BillView
+              {...bill}
+              key={bill.id}
+              patientId={listItem.patientInfo.id}
+              billId={bill.id}
+              deleteBill={this.deleteBill}
+            />
+          </div>
+        ))}
+        <div>
+          共计 <span className="total-price">￥{totalPrice.toFixed(2)}</span>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div className="list-page">
         {this.state.list.map(listItem => (
           <div className="patientWrapper" key={listItem.patientInfo.id}>
             <h1>{listItem.patientInfo.name}</h1>
@@ -52,21 +78,15 @@ export default class List extends Component {
             <PatientView {...listItem.patientInfo} />
             <h2>账单信息</h2>
             {listItem.billsInfo && listItem.billsInfo.length
-              ? listItem.billsInfo.map(bill => (
-                  <div>
-                    <BillView
-                      {...bill}
-                      key={bill.id}
-                      patientId={listItem.patientInfo.id}
-                      billId={bill.id}
-                      deleteBill={this.deleteBill}
-                    />
-                  </div>
-                ))
+              ? this.renderBills(listItem)
               : "没有未清算账单"}
           </div>
         ))}
-        <button onClick={this.onBackClick}>返回</button>
+        <div className="back-btn-wrapper">
+          <button className="back-btn" onClick={this.onBackClick}>
+            返回
+          </button>
+        </div>
       </div>
     );
   }

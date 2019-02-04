@@ -24,7 +24,7 @@ function createNewBill(id, disease, price, remark) {
   return {
     id,
     disease,
-    price,
+    price: parseFloat(price),
     remark,
     time: new Date(id).toLocaleString()
   };
