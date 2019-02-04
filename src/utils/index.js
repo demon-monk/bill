@@ -1,12 +1,15 @@
-const { ipcRenderer } = require("electron");
+const { ipcRenderer } = window.require("electron");
+
 let patients, bills;
 ipcRenderer.on("data:loaded", (event, jsonData) => {
   const { patients: patient, bills: bill } = JSON.parse(jsonData);
-  partients = patient;
+  patients = patient;
   bills = bill;
+  console.log(patients);
+  console.log(bills);
 });
 
-module.exports = {
+export default {
   getPatitents: () => patients,
   getBills: () => bills,
   searchPatient: patientName => {
