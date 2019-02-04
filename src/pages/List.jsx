@@ -74,7 +74,8 @@ export default class List extends Component {
         {this.state.list.map(listItem => (
           <div className="patientWrapper" key={listItem.patientInfo.id}>
             <h1>{listItem.patientInfo.name}</h1>
-            <h1>病人信息</h1>
+            <hr />
+            <h2>病人信息</h2>
             <PatientView {...listItem.patientInfo} />
             <h2>账单信息</h2>
             {listItem.billsInfo && listItem.billsInfo.length

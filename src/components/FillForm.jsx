@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import Input from "./Input";
 import "./FillForm.less";
 import utils from "../utils";
+import { setCurrentKeyWord } from "../utils/state";
 
 @withRouter
 export default class FillForm extends Component {
@@ -12,7 +13,8 @@ export default class FillForm extends Component {
     patientAddress: "",
     billDisease: "",
     billPrice: 0,
-    billRemark: ""
+    billRemark: "",
+    warningMsg: ""
   };
 
   onPatientNameChange = name => {
@@ -49,6 +51,20 @@ export default class FillForm extends Component {
       billPrice,
       billRemark
     } = this.state;
+
+    if (!patientName) {
+      this.setState({ warningMsg: "请输入病人姓名" });
+    } else if (!patientAddress) {
+      this.setState({ warningMsg: "请输入病人地址" });
+    } else if (!billDisease) {
+      this.setState({ warningMsg: "请输入病情" });
+    } else if (!billPrice) {
+      this.setState({ warningMsg: "请输入金额" });
+    }
+    if (!patientName || !patientAddress || !billDisease || !billPrice) {
+      return;
+    }
+
     utils.saveBill({
       patientName,
       patientGender,
@@ -58,7 +74,8 @@ export default class FillForm extends Component {
       billRemark
     });
     setTimeout(() => {
-      this.props.history.push("/");
+      setCurrentKeyWord(patientName);
+      this.props.history.push("/list");
     }, 0.5);
   };
 
@@ -94,8 +111,13 @@ export default class FillForm extends Component {
           <h1>账单信息</h1>
           <hr />
           <Input label="病情" onChangeHandler={this.onBillDiseaseChange} />
-          <Input label="金额" onChangeHandler={this.onBillPriceChange} />
+          <Input
+            label="金额"
+            type="number"
+            onChangeHandler={this.onBillPriceChange}
+          />
           <Input label="备注" onChangeHandler={this.onBillRemarkChange} />
+          <div className="warning-msg">{this.state.warningMsg}</div>
           <button type="submit">提交</button>
         </form>
       </div>

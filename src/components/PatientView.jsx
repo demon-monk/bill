@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./PatientView.less";
 
 export default class PatientView extends Component {
   render() {
