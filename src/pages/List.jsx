@@ -35,10 +35,15 @@ export default class List extends Component {
             <h1>{listItem.patientInfo.name}</h1>
             <h1>病人信息</h1>
             <PatientView {...listItem.patientInfo} />
+            <h2>账单信息</h2>
             {listItem.billsInfo.map(bill => (
               <div>
-                <h2>账单信息</h2>
-                <BillView {...bill} key={bill.id} />
+                <BillView
+                  {...bill}
+                  key={bill.id}
+                  patientId={listItem.patientInfo.id}
+                  billId={bill.id}
+                />
               </div>
             ))}
           </div>

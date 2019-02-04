@@ -46,6 +46,14 @@ export default {
   getBillsFromPatient: patient => {
     return patient.bills.map(billId => bills[billId]);
   },
+  deleteBill: (patientId, billId) => {
+    delete bills[billId];
+    const patientBills = patients[patientId].bills;
+    const idx = patientBills.indexOf(billId);
+    patientBills.splice(idx, 1);
+    _doSaveInfo();
+  },
+
   saveBill: info => {
     const {
       patientName,
