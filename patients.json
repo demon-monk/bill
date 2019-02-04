@@ -1,6 +1,7 @@
 {
   "123": {
     "id": "123",
+    "name": "王二",
     "bills": ["123"],
     "gender": 0,
     "address": "some address"
