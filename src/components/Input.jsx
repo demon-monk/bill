@@ -1,20 +1,23 @@
 import React, { Component } from "react";
+import "./input.less";
 
 export default class Input extends Component {
   state = {
     value: ""
   };
 
-  onChange = event => {
+  onChange = ({ target }) => {
+    const { value } = target;
     this.setState({
-      value: event
+      value
     });
+    this.props.onChangeHandler && this.props.onChangeHandler(value);
   };
 
   render() {
     return (
-      <div>
-        {this.props.label && <label>{this.props.label}</label>}
+      <div className="input-comp">
+        {this.props.label && <label>{this.props.label}：</label>}
         <input value={this.state.value} onChange={this.onChange} />
       </div>
     );
