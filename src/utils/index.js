@@ -15,7 +15,7 @@ function createNewPatient(name, gender, address, id) {
     id,
     name,
     address,
-    gender,
+    gender: parseInt(gender),
     bills: []
   };
 }
@@ -67,7 +67,7 @@ export default {
       const patient = patients[patientId];
       return (
         patient.name === patientName &&
-        patient.gender === patientGender &&
+        patient.gender == patientGender &&
         patient.address === patientAddress
       );
     });
